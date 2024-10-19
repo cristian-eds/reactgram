@@ -76,10 +76,19 @@ const login = async (req, res) => {
         profileImage: user.profileImage,
         token: generateToken(user._id)
     })
-    res.send("Login");
  }
+
+
+ // Get current logged in User
+const getCurrentUser = async(req, res) => {
+    const user = req.user
+
+    res.status(200).json(user);
+}
+
 
 module.exports = {
     register,
-    login
+    login,
+    getCurrentUser
 }
