@@ -83,7 +83,6 @@ const login = async (req, res) => {
 // Get current logged in User
 const getCurrentUser = async (req, res) => {
     const user = req.user
-
     res.status(200).json(user);
 }
 
@@ -94,11 +93,15 @@ const update = async (req, res) => {
 
     let profileImage = null;
 
+    console.log(req)
+
     if (req.file) {
-        progileImage = req.file.filaname;
+        profileImage = req.file.filename;
     }
 
     const reqUser = req.user;
+
+    console.log(reqUser);
 
     const user = await User.findById(reqUser._id).select("-password");
 
