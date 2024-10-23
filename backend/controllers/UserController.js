@@ -93,15 +93,12 @@ const update = async (req, res) => {
 
     let profileImage = null;
 
-    console.log(req)
-
     if (req.file) {
         profileImage = req.file.filename;
     }
 
     const reqUser = req.user;
 
-    console.log(reqUser);
 
     const user = await User.findById(reqUser._id).select("-password");
 
