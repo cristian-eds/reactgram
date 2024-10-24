@@ -8,7 +8,7 @@ import Message from '../../components/Message';
 import { Link } from "react-router-dom";
 
 //icons
-import { BsFillEyeFill, BsPencilFill, BsXlg } from 'react-icons/bs'
+import { BsFillEyeFill, BsPencilFill, BsXLg } from 'react-icons/bs'
 
 //hooks
 import { useState, useEffect, useRef } from 'react';
@@ -32,9 +32,9 @@ const Profile = () => {
         error: errorPhoto,
         loading: loadingPhoto,
         message: messagePhoto,
-      } = useSelector((state) => state.photo);
+    } = useSelector((state) => state.photo);
 
-      
+
     const [title, setTitle] = useState("");
     const [image, setImage] = useState("");
 
@@ -68,16 +68,16 @@ const Profile = () => {
         const formData = new FormData();
 
         const photoFormData = Object.keys(photoData)
-        .forEach((key) => formData.append(key, photoData[key]))
+            .forEach((key) => formData.append(key, photoData[key]))
 
-        formData.append("photo",photoFormData);
+        formData.append("photo", photoFormData);
 
         dispatch(publishPhoto(formData));
         setTitle("");
 
-        setTimeout(()=> {
+        setTimeout(() => {
             dispatch(resetMessage());
-          },2000);
+        }, 2000);
     }
 
 
@@ -110,7 +110,7 @@ const Profile = () => {
                                 <input type="file" onChange={handleFile} />
                             </label>
                             {!loadingPhoto && <input type="submit" value="Postar" />}
-                            {loadingPhoto && <input type="submit" value="Aguarde..." disabled/>}
+                            {loadingPhoto && <input type="submit" value="Aguarde..." disabled />}
                         </form>
                     </div>
                     {errorPhoto && <Message msg={errorPhoto} type="error"></Message>}
@@ -126,11 +126,20 @@ const Profile = () => {
                                 <img src={`${uploads}/photos/${photo.image}`} alt={photo.title} />
                             )}
                             {id === userAuth._id ? (
-                                <p>actions</p>
-                            ) : ( <Link className="btn" to={`/photos/${photo._id}`}>Ver</Link> ) }
+                                <div className="actions">
+                                    <Link to={`/photos/${photo._id}`}>
+                                        <BsFillEyeFill />
+                                    </Link>
+                                    <BsPencilFill />
+                                    <BsXLg />
+                                </div>
+
+                            ) : (<Link className="btn" to={`/photos/${photo._id}`}>Ver</Link>)}
                         </div>
-                    ))}
-                    {photos.length === 0 &&  <p>Ainda não há fotos publicadas.</p>  }
+                    )
+                    )}
+
+
                 </div>
             </div>
         </div>
