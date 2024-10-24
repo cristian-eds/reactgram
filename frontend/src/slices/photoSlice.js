@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import userService from "../services/userService";
 import photoService from "../services/photoService";
 
 const initialState = {
@@ -24,7 +23,7 @@ export const publishPhoto = createAsyncThunk(
         // check for errors
         if(data.errors) return thunkAPI.rejectWithValue(data.errors[0]);
 
-        return data
+        return data;
     }
 )
 
