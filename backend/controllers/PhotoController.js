@@ -36,13 +36,15 @@ const deletePhoto = async (req, res) => {
 
     const { id } = req.params;
 
-    const reqUser = res.user;
+    const reqUser = req.user;
 
     try {
-        const photo = await Photo.findById(id)
+        const photo = await Photo.findById(id);
+        console.log(photo);
 
         // check if photo exists
         if (!photo) {
+            console.log("Passou aqui !photo")
             res.status(404).json({ errors: ["Foto não encontrada."] })
             return;
         }
@@ -55,10 +57,13 @@ const deletePhoto = async (req, res) => {
 
         await Photo.findByIdAndDelete(photo._id);
 
-        res.status(200).json({ id: photo._id, message: "Foto excluída com sucesso." });
+        res
+            .status(200)
+            .json({ id, message: "Foto excluída com sucesso." });
 
     } catch (error) {
-        res.status(404).json({ errors: ["Foto não encontrada."] })
+        console.log("passou aqui! error")
+        res.status(404).json({ errors: ["Foto não encontrada. Erro"] })
         return;
     }
 
@@ -157,15 +162,15 @@ const likePhoto = async (req, res) => {
 
     photo.save();
 
-    res.status(200).json({photoId: id, userId: userReq._id, message: "A foto foi curtida"});
+    res.status(200).json({ photoId: id, userId: userReq._id, message: "A foto foi curtida" });
 
 }
 
 // comment functionality
-const commentPhoto = async (req,res) => {
-    
-    const {id} = req.params;
-    const {comment} = req.body;
+const commentPhoto = async (req, res) => {
+
+    const { id } = req.params;
+    const { comment } = req.body;
 
     const reqUser = req.user;
 
@@ -199,10 +204,10 @@ const commentPhoto = async (req,res) => {
 
 //search photos by title
 const searchPhotos = async (req, res) => {
-    
-    const {q} = req.query
 
-    const photos = await Photo.find({title: new RegExp(q,"i")}).exec()
+    const { q } = req.query
+
+    const photos = await Photo.find({ title: new RegExp(q, "i") }).exec()
 
     res.status(200).json(photos);
 }
