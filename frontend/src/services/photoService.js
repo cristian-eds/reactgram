@@ -106,6 +106,22 @@ const like = async (id, token) => {
 
 }
 
+//add comment to a photo
+const comment = async (data, id, token) => {
+
+    const config = requestConfig("PUT", data, token);
+
+    try {
+        const res = fetch(api + "/photos/comment/" + id, config)
+            .then(res => res.json())
+            .catch(err => err);
+
+        return res;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 
 
 const photoService = {
@@ -114,7 +130,8 @@ const photoService = {
     deletePhoto,
     updatePhoto,
     getPhotoById,
-    like
+    like,
+    comment
 }
 
 export default photoService;
