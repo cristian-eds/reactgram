@@ -123,7 +123,6 @@ const comment = async (data, id, token) => {
 }
 
 
-
 const photoService = {
     publishPhoto,
     getUserPhotos,

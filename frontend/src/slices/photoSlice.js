@@ -80,7 +80,7 @@ export const getPhotoById = createAsyncThunk(
     "photo/getPhoto",
     async (id, thunkAPI) => {
         const token = thunkAPI.getState().auth.user.token;
-        const data = await photoService.getPhotoById(id,token);
+        const data = await photoService.getPhotoById(id, token);
         return data;
     }
 )
@@ -91,15 +91,33 @@ export const likePhoto = createAsyncThunk(
     async (id, thunkAPI) => {
         const token = thunkAPI.getState().auth.user.token;
 
-        const data = await photoService.like(id,token);
+        const data = await photoService.like(id, token);
 
-         // check for errors
-         if (data.errors) return thunkAPI.rejectWithValue(data.errors[0]);
+        // check for errors
+        if (data.errors) return thunkAPI.rejectWithValue(data.errors[0]);
 
         return data;
     }
 )
 
+
+//add comment to a photo
+export const comment = createAsyncThunk(
+    "photo/comment",
+    async (photoData, thunkAPI) => {
+
+        const token = thunkAPI.getState().auth.user.token;
+
+        const data = await photoService.comment({ comment: photoData.comment }, photoData.id, token);
+
+        // check for errors
+        if (data.errors) return thunkAPI.rejectWithValue(data.errors[0]);
+
+        return data;
+
+
+    }
+)
 
 export const photoSlice = createSlice({
     name: "photo",
@@ -188,13 +206,13 @@ export const photoSlice = createSlice({
                 state.success = true;
                 state.error = null;
 
-                if(state.photo.likes) {
+                if (state.photo.likes) {
                     console.log(action.payload)
                     state.photo.likes.push(action.payload.userId);
                 }
 
-                state.photos.map(photo=> {
-                    if(photo._id === action.payload.photoId) {
+                state.photos.map(photo => {
+                    if (photo._id === action.payload.photoId) {
                         return photo.likes.push(action.payload.userId);
                     }
                     return photo;
@@ -205,8 +223,20 @@ export const photoSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload;
             })
+            .addCase(comment.fulfilled, (state, action) => {
+                state.loading = false;
+                state.success = true;
+                state.error = null;
+                state.message = action.payload.message;
+                state.photo.comment.push(action.payload.comment);
+            })
+            .addCase(comment.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
     }
 });
+
 
 export const { resetMessage } = photoSlice.actions;
 export default photoSlice.reducer;
