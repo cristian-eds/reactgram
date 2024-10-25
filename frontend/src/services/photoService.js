@@ -91,9 +91,6 @@ const getPhotoById = async (id) => {
 
 
 
-
-
-
 const photoService = {
     publishPhoto,
     getUserPhotos,
