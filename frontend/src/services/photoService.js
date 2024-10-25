@@ -22,7 +22,7 @@ const publishPhoto = async (data, token) => {
 // get user photos
 const getUserPhotos = async (id, token) => {
 
-    const config = requestConfig("GET",null,token);
+    const config = requestConfig("GET", null, token);
 
     try {
 
@@ -38,13 +38,13 @@ const getUserPhotos = async (id, token) => {
 }
 // delete photo 
 const deletePhoto = async (id, token) => {
-    
-    const config = requestConfig("DELETE","",token);
+
+    const config = requestConfig("DELETE", "", token);
 
     try {
-        const res = fetch(api+"/photos/"+id,config)
-            .then(res=>res.json())
-            .catch(err=>err)
+        const res = fetch(api + "/photos/" + id, config)
+            .then(res => res.json())
+            .catch(err => err)
 
         return res;
     } catch (error) {
@@ -72,21 +72,38 @@ const updatePhoto = async (data, id, token) => {
 }
 
 //get photo by id 
-const getPhotoById = async (id,token) => {
-    
-    const config = requestConfig("GET",null,token);
+const getPhotoById = async (id, token) => {
+
+    const config = requestConfig("GET", null, token);
 
     try {
-        
-        const res = await fetch(api+"/photos/"+id, config)
-            .then(res=>res.json())
-            .catch(err=>err);
+
+        const res = await fetch(api + "/photos/" + id, config)
+            .then(res => res.json())
+            .catch(err => err);
 
         return res;
 
     } catch (error) {
         console.log(error)
     }
+}
+
+//like a photo
+const like = async (id, token) => {
+
+    const config = requestConfig("PUT", null, token);
+
+    try {
+        const res = await fetch(api + "/photos/like/" + id, config)
+            .then(res => res.json())
+            .catch(err => err);
+
+        return res;
+    } catch (error) {
+        console.log(error);
+    }
+
 }
 
 
@@ -96,7 +113,8 @@ const photoService = {
     getUserPhotos,
     deletePhoto,
     updatePhoto,
-    getPhotoById
+    getPhotoById,
+    like
 }
 
 export default photoService;
