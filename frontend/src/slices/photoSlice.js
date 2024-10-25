@@ -189,12 +189,13 @@ export const photoSlice = createSlice({
                 state.error = null;
 
                 if(state.photo.likes) {
+                    console.log(action.payload)
                     state.photo.likes.push(action.payload.userId);
                 }
 
                 state.photos.map(photo=> {
-                    if(photo._id === action.payload.photo.photoId) {
-                        return photo.likes.push(action.payload.userID);
+                    if(photo._id === action.payload.photoId) {
+                        return photo.likes.push(action.payload.userId);
                     }
                     return photo;
                 })

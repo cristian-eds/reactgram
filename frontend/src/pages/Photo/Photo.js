@@ -14,7 +14,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
 
 //redux
-import { getPhotoById } from '../../slices/photoSlice'
+import { getPhotoById,likePhoto } from '../../slices/photoSlice'
+import LikeContainer from '../../components/LikeContainer'
 
 
 const Photo = () => {
@@ -35,7 +36,9 @@ const Photo = () => {
     },[dispatch, id])
 
     // like and commentario
-
+    const handleLike = () => {
+        dispatch(likePhoto(photo._id))
+    }
 
     if (loading) {
         return <p>Carregando...</p>
@@ -44,6 +47,7 @@ const Photo = () => {
     return (
         <div id='photo'>
             <PhotoItem photo={photo} />
+            <LikeContainer photo={photo} user={user} handleLike={handleLike}/>
         </div>
     )
 }
