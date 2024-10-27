@@ -13,11 +13,52 @@ import PhotoItem from '../../components/PhotoItem';
 import { Link } from 'react-router-dom';
 
 // redux
-
+import { searchPhotos, likePhoto } from '../../slices/photoSlice';
 
 const Search = () => {
+
+  const query = useQuery();
+  const search = query.get("q");
+
+  const dispatch = useDispatch();
+  const resetMessage = useResetComponentMessage(dispatch);
+
+  const { user } = useSelector(state => state.auth);
+  const { photos, loading } = useSelector(state => state.photo);
+
+
+  //load photos
+  useEffect(() => {
+    dispatch(searchPhotos(search));
+  }, [dispatch, search])
+
+  //like a photo
+  const handleLike = (photo) => {
+    dispatch(likePhoto(photo._id));
+    resetMessage();
+  }
+
+  if (loading) {
+    <p>Carregando...</p>
+  }
+
+
   return (
-    <div>Search</div>
+    <div id="search">
+      <h2>Você está buscando por: {search}</h2>
+      {photos && photos.map(photo => (
+        <div key={photo._id}>
+          <PhotoItem photo={photo}></PhotoItem>
+          <LikeContainer photo={photo} user={user} handleLike={handleLike}></LikeContainer>
+          <Link className='btn' to={`/photos/${photo._id}`}>Ver mais</Link>
+        </div>
+      ))}
+      {photos && photos.length === 0 && (
+        <h2 className="no-photos">
+          Não foram encontrados resultados para a busca...
+        </h2>
+      )}
+    </div>
   )
 }
 

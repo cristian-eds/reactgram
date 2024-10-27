@@ -2,7 +2,7 @@ import './Home.css'
 
 //components
 import LikeContainer from '../../components/LikeContainer';
-import PhotItem from '../../components/PhotoItem';
+import PhotoItem from '../../components/PhotoItem';
 import { Link } from 'react-router-dom';
 
 //hooks
@@ -41,7 +41,7 @@ const Home = () => {
     <div id="home">
       {photos && photos.map(photo=> (
         <div key={photo._id}>
-          <PhotItem photo={photo}></PhotItem>
+          <PhotoItem photo={photo}></PhotoItem>
           <LikeContainer photo={photo} user={user} handleLike={handleLike}></LikeContainer>
           <Link className='btn' to={`/photos/${photo._id}`}>Ver mais</Link>
         </div>  
